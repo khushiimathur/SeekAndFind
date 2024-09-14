@@ -4,7 +4,7 @@ async function sendData() {
     userInput = document.getElementById('email').value;
     console.log(userInput);
     if (userInput.endsWith("@igdtuw.ac.in")){
-        const response = await fetch('http://localhost:5000/process', {
+        const response = await fetch('https://seekandfind.onrender.com/process', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
