@@ -1,6 +1,4 @@
 flask
 pandas
 flask_cors
-email.mime.text
-email.mime.multipart
 random
