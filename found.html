@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Found Items</title>
+    <link rel="stylesheet" href="styles.css">
+    <header>
+        <nav>
+            <ul>
+                <li>[SITE NAME]</li>
+                <li><a href="lost.html">Lost Items</a></li>
+                <li><a href="found.html">Found Items</a></li>
+                <li><a href="report.html">Report Item</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <div class="search-container" style="display: flex;">
+                    <input type="text" id="searchInput" placeholder="Search item name...">
+                    <li><a><button id="searchButton" onclick="searchItems()">Search</button></li></a>
+                </div>
+            </ul>
+        </nav>
+        
+        
+    </header>
+    
+    <style>
+        /* Basic styles for the cards */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .card h3 {
+            margin: 10px 0;
+        }
+        .card p {
+            margin: 5px 0;
+        }
+        #lost-items-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: space-around;
+        }
+        h1{
+            
+            margin:1em;
+        }
+        /* Style for the disclaimer container */
+.disclaimer-container {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+    border-radius: 4px;
+    padding: 10px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+/* Style for the disclaimer text */
+.disclaimer-container p {
+    margin: 0;
+    font-weight: bold;
+}
+html, body {
+    height: 100%; /* Ensures the body takes up the full height of the viewport */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    background-color: #ac3b61; /* Set your desired background color */
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto; /* Pushes the footer to the bottom when the content is short */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left; /* Align text to the left */
+}
+
+.developer {
+    margin: 5px 0;
+}
+
+
+        /* For tablets and smaller screens (up to 768px) */
+@media only screen and (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 90%;
+        margin: 10px auto;
+    }
+    .search-container {
+        flex-direction: column;
+        width: 100%;
+    }
+    .search-container input, .search-container button {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+}
+
+/* For phone screens (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .card {
+        width: 100%;
+        padding: 10px;
+    }
+    nav ul {
+        flex-direction: column;
+        padding: 0;
+    }
+    .search-container input, .search-container button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+    
+    <h1>Found Items</h1>
+    <div class="disclaimer-container">
+        <p><strong>Disclaimer:</strong> Please verify the owner's identity before handing over any items. The website administrators are not responsible for any issues arising from the transaction of lost or found items.</p>
+    </div>
+    <div id="found-items-container"></div>
+
+    <script>
+        const url = 'https://script.google.com/macros/s/AKfycbzGA64TZDn68RE7Jc2KICoPJK13BOGZO_8CFW9R5X_dyiG4Oz5ew_Ol5At22AEsYNGi/exec'; // Replace with your Google Apps Script Web App URL
+
+        let item_names = []; // Globally accessible array
+
+        // Function to fetch data and populate the item_names array
+        async function fetchData() {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const container = document.getElementById('found-items-container');
+                container.innerHTML = ''; // Clear any existing content
+
+                // Reverse the data array and skip the first row
+                const reversedData = data.slice(1).reverse();
+
+                reversedData.forEach(item => {
+                    item_names.push(item['itemName'].toLowerCase()); // Populate item_names array
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    // Extract file ID from Google Drive link
+                    const driveLink = item["driveLink"];
+                    const fileIdMatch = driveLink.match(/d\/([^\/]+)/);
+                    const fileId = fileIdMatch ? fileIdMatch[1] : '';
+                    const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
+
+                    // Dynamically build the card content
+                    card.innerHTML = `
+                        <h3>${item["itemName"]}</h3>
+                        <p>Full Name: ${item["owner"]}</p>
+                        <p>Item Name: ${item["itemName"]}</p>
+                        <p>Description: ${item["description"]}</p>
+                        <p><strong>Contact:</strong> ${item["contact"]}</p>
+                        <p><strong>Email:</strong> <a href="mailto:${item["email"]}">${item["email"]}</a></p>
+                        ${previewLink ? `<iframe src="${previewLink}" width="100%" height="200px" frameborder="0" allowfullscreen></iframe>` : '<p>No preview available</p>'}
+                    `;
+
+                    container.appendChild(card);
+                });
+
+                // Log item_names array to verify it is populated
+                console.log(item_names);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Call fetchData to populate item_names on page load
+        fetchData();
+
+        // Async function to handle search
+        async function searchItems() {
+            const searchValue = document.getElementById("searchInput").value.toLowerCase();
+            let flag = false;
+            const url = 'https://script.google.com/macros/s/AKfycbzGA64TZDn68RE7Jc2KICoPJK13BOGZO_8CFW9R5X_dyiG4Oz5ew_Ol5At22AEsYNGi/exec'; // Replace with your Google Apps Script Web App URL
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+            
+                    const container = document.getElementById('found-items-container');
+                    container.innerHTML = ''; // Clear any existing content
+            
+                
+                    const reversedData = data.slice(1).reverse();
+            
+                    reversedData.forEach(item => {
+                    
+                
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                
+                        const driveLink = item["driveLink"];
+                        const fileIdMatch = driveLink.match(/d\/([^\/]+)/);
+                        const fileId = fileIdMatch ? fileIdMatch[1] : '';
+                        const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
+                
+                        if (searchValue == item["itemName"]){
+                            card.innerHTML = `
+                            <h3>${item["itemName"]}</h3>
+                            <p>Full Name: ${item["owner"]}</p>
+                            <p>Item Name: ${item["itemName"]}</p>
+                            <p>Description: ${item["description"]}</p>
+                            <p><strong>Contact:</strong> ${item["contact"]}</p>
+                            <p><strong>Email:</strong> <a href="mailto:${item["email"]}">${item["email"]}</a></p>
+                            ${previewLink ? `<iframe src="${previewLink}" width="100%" height="200px" frameborder="0" allowfullscreen></iframe>` : '<p>No preview available</p>'}
+                        `;
+                
+                            container.appendChild(card);
+                            flag = true;
+                        }     
+                                       
+                });
+                if (flag == false){
+                    alert ("No such item found");
+                }
+            // You can update the UI with the filteredItems here
+            }catch (error) {
+                
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+    // Push the current state to the history stack
+            history.pushState(null, document.title, window.location.href);
+
+            window.addEventListener('popstate', function(event) {
+            window.location.href = 'found.html';
+            });
+        });
+
+
+    
+
+    
+
+
+    </script>
+</body>
+<footer id="footer">
+    <div class="footer-content">
+        <p><strong>Developed by:</strong></p>
+        <div class="developer">
+            <p>Khushi Goyal <a href="https://www.linkedin.com/in/khushi-goyal-56b633283/" target="_blank">LinkedIn</a></p>
+        </div>
+        <div class="developer">
+            <p>Khushi Mathur <a href="https://www.linkedin.com/in/khushi-mathur-26b07928a/" target="_blank">LinkedIn</a></p>
+        </div>
+    </div>
+</footer>
+</html>

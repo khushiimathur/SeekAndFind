@@ -1,0 +1,299 @@
+html{
+    margin:0;
+    padding:0;
+    height:100%;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height:100%;
+    background-color: #eee2dc;
+}
+
+header {
+    background-color: #ac3b61;
+    color: #edc7b7;
+    padding: 1em 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+nav h1 {
+    margin: 0;
+    color: #edc7b7;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+nav ul li {
+    margin: 0 1em;
+    background-color: #ac3b61;
+}
+
+nav ul li a {
+    color: #edc7b7;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #eaa88c;
+}
+
+/* Style for the search container */
+.search-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between input and button */
+}
+
+/* Style for the input field */
+#searchInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    flex: 1; /* Take up remaining space */
+    box-sizing: border-box;
+    transform: translateY(2px); /* Move input slightly down */
+}
+
+/* Style for the button */
+#searchButton {
+    background-color: #edc7b7;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    transform: translateY(-2px); /* Move button slightly up */
+}
+
+/* Button hover effect */
+#searchButton:hover {
+    background-color: #eaa88c;
+}
+
+/* Button active (when clicked) effect */
+#searchButton:active {
+    background-color: #e98e67;
+    transform: scale(0.98); /* Slightly shrink the button */
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+    background-color: #eee2dc;
+}
+
+section {
+    background-color: white;
+    padding: 1em 5em 2em 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    margin-bottom: 2em;
+    box-sizing: border-box;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1500px;
+    gap: 1em;
+}
+
+.form-section {
+    background-color: #f6f6f6;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 0.5em);
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #123c69;
+}
+
+label {
+    display: block;
+    margin-top: 0.5em;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 1.5em;
+    background-color: #f6f6f6;
+    border: 1px solid #bab2b5;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    padding: 0;
+}
+
+button {
+    background-color: #edc7b7;
+    color: white;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #eaa88c;
+}
+
+button:active {
+    background-color: #e98e67;
+    /* color: #baabd6; */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+li {
+    background-color: #fff;
+    margin: 0.5em 0;
+    padding: 1em;
+    border-radius: 4px;
+}
+
+img {
+    max-width: 100px;
+    max-height: 100px;
+    display: block;
+    margin-top: 1em;
+}
+
+h1 {
+    color: #123c69;
+}
+
+.card {
+    background-color: #17487c;
+    color: #bab2b5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.card a {
+    color: #bab2b5;
+}
+
+.card iframe {
+    width: 100%;
+    height: 200px;
+    border: none;
+    border-radius: 8px;
+}
+
+.card h3 {
+    margin: 10px 0;
+}
+
+.card p {
+    margin: 5px 0;
+}
+
+#lost-items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-around;
+}
+
+
+
+
+
+
+
+
+/* Style for the footer */
+footer {
+    background-color: #ac3b61; /* Background color for the footer */
+    color: #ffffff; /* Text color */
+    padding: 10px 20px;
+    width: 100%; /* Full width */
+    display: flex; /* Flexbox for horizontal alignment */
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center; /* Center items vertically */
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+    height: 50px; /* Set height for the footer */
+    line-height: 30px; /* Align text vertically */
+    position: relative; /* Ensure footer doesn't create extra space */
+}
+/* Ensure content pushes footer to the bottom */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ensure body takes up at least the viewport height */
+    position: relative;
+}
+
+/* Ensure content does not overlap footer */
+main {
+    padding-bottom: 60px; /* Space for the footer */
+}
+
+/* Style for the footer content */
+.footer-content {
+    display: flex; /* Flexbox for horizontal layout */
+    gap: 20px; /* Space between items */
+    align-items: center; /* Center items vertically */
+    
+}
+
+/* Style for developer information */
+.developer {
+    color: #ffffff; /* Text color */
+}
+
+.developer p {
+    margin: 0;
+}
+
+.developer a {
+    color: #eaa88c; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold text */
+    margin-left: 5px; /* Space between name and link */
+}
+
+.developer a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

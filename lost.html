@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Items</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic styles for the cards */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .card h3 {
+            margin: 10px 0;
+        }
+        .card p {
+            margin: 5px 0;
+        }
+        #lost-items-container {
+            display: block;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: space-around;
+        }
+        h1{
+            
+            margin:1em;
+        }
+        html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    background-color: #ac3b61; /* Set your desired background color */
+    
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    
+}
+
+.developer {
+    margin: 5px 0;
+}
+
+        
+        /* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        max-width: 300px; /* Optional: Adjust if needed */
+    }
+    #lost-items-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+    nav ul li {
+        margin-bottom: 10px;
+    }
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .search-container input, .search-container button {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 10px;
+        background-color: #eee2dc;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%;
+        max-width: none; /* Make the card full width */
+    }
+    .card iframe {
+        height: 150px; /* Adjust height for better fit on smaller screens */
+    }
+    .search-container input, .search-container button {
+        width: 100%;
+        max-width: none; /* Full width on small screens */
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>[SITE NAME]</li>
+                <li><a href="lost.html">Lost Items</a></li>
+                <li><a href="found.html">Found Items</a></li>
+                <li><a href="report.html">Report Item</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <div class="search-container" style="display: flex;">
+                    <input type="text" id="searchInput" placeholder="Search item name...">
+                    <button id="searchButton" onclick="searchItems()">Search</button>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    
+    <h1>Lost Items</h1>
+    <div id="lost-items-container"></div>
+    <script>
+      
+        const url = 'https://script.google.com/macros/s/AKfycby0WibbhZftneSr8DYuOzWQKM56-OmU3EnUpDaqO_ymcsGnvlE9nvbMu5O0HbyW9C8Ceg/exec'; // Replace with your Google Apps Script Web App URL
+        let item_names = []; // Globally accessible array
+
+        // Function to fetch data and populate the item_names array
+        async function fetchData() {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const container = document.getElementById('lost-items-container');
+                container.innerHTML = ''; // Clear any existing content
+
+                // Reverse the data array and skip the first row
+                const reversedData = data.slice(1).reverse();
+
+                reversedData.forEach(item => {
+                    item_names.push(item['itemName'].toLowerCase()); // Populate item_names array
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    // Extract file ID from Google Drive link
+                    const driveLink = item["driveLink"];
+                    const fileIdMatch = driveLink.match(/d\/([^\/]+)/);
+                    const fileId = fileIdMatch ? fileIdMatch[1] : '';
+                    const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
+
+                    // Dynamically build the card content
+                    card.innerHTML = `
+                        <h3>${item["itemName"]}</h3>
+                        <p><strong>Full Name:</strong> ${item["owner"]}</p>
+                        <p><strong>Item Name:</strong> ${item["itemName"]}</p>
+                        <p><strong>Description:</strong> ${item["description"]}</p>
+                        <p><strong>Contact:</strong> ${item["contact"]}</p>
+                        <p><strong>Email:</strong> <a href="mailto:${item["email"]}">${item["email"]}</a></p>
+                        ${previewLink ? `<iframe src="${previewLink}" width="100%" height="200px" frameborder="0" allowfullscreen></iframe>` : '<p>No preview available</p>'}
+                    `;
+
+                    container.appendChild(card);
+                });
+
+                // Log item_names array to verify it is populated
+                console.log(item_names);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Call fetchData to populate item_names on page load
+        fetchData();
+
+        // Async function to handle search
+        async function searchItems() {
+            const searchValue = document.getElementById("searchInput").value.toLowerCase();
+            let flag = false;
+            const url = 'https://script.google.com/macros/s/AKfycby0WibbhZftneSr8DYuOzWQKM56-OmU3EnUpDaqO_ymcsGnvlE9nvbMu5O0HbyW9C8Ceg/exec'; // Replace with your Google Apps Script Web App URL
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+            
+                    const container = document.getElementById('lost-items-container');
+                    container.innerHTML = ''; // Clear any existing content
+            
+                
+                    const reversedData = data.slice(1).reverse();
+            
+                    reversedData.forEach(item => {
+                    
+                
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                
+                        const driveLink = item["driveLink"];
+                        const fileIdMatch = driveLink.match(/d\/([^\/]+)/);
+                        const fileId = fileIdMatch ? fileIdMatch[1] : '';
+                        const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
+                
+                        if (searchValue == item["itemName"]){
+                            card.innerHTML = `
+                            <h3>${item["itemName"]}</h3>
+                            <p>Full Name: ${item["owner"]}</p>
+                            <p>Item Name: ${item["itemName"]}</p>
+                            <p>Description: ${item["description"]}</p>
+                            <p><strong>Contact:</strong> ${item["contact"]}</p>
+                            <p><strong>Email:</strong> <a href="mailto:${item["email"]}">${item["email"]}</a></p>
+                            ${previewLink ? `<iframe src="${previewLink}" width="100%" height="200px" frameborder="0" allowfullscreen></iframe>` : '<p>No preview available</p>'}
+                        `;
+                
+                            container.appendChild(card);
+                            flag = true;
+                        }     
+                                       
+                });
+                if (flag == false){
+                    alert ("No such item found");
+                }
+            // You can update the UI with the filteredItems here
+            }catch (error) {
+                
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+    // Push the current state to the history stack
+            history.pushState(null, document.title, window.location.href);
+
+            window.addEventListener('popstate', function(event) {
+            window.location.href = 'lost.html';
+        });
+});
+
+
+    
+
+    
+
+
+    </script>
+</body>
+<footer id="footer">
+    <div class="footer-content">
+        <p><strong>Developed by:</strong></p>
+        <div class="developer">
+            <p>Khushi Goyal <a href="https://www.linkedin.com/in/khushi-goyal-56b633283/" target="_blank">LinkedIn</a></p>
+        </div>
+        <div class="developer">
+            <p>Khushi Mathur <a href="https://www.linkedin.com/in/khushi-mathur-26b07928a/" target="_blank">LinkedIn</a></p>
+        </div>
+    </div>
+</footer>
+
+
+</html>

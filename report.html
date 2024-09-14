@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Lost Item</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <style>
+            /* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+    .form-section {
+        max-width: 600px; /* Ensure forms are not too wide on tablets */
+    }
+    iframe {
+        height: 600px; /* Adjust iframe height for better fit */
+    }
+}
+
+@media (max-width: 480px) {
+    .form-section {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+    iframe {
+        height: 500px; /* Adjust iframe height for small screens */
+    }
+}
+        </style>
+        
+        <nav>
+            <ul>
+                <li>[SITE NAME]</li>
+                <li><a href="lost.html">Lost Items</a></li>
+                <li><a href="found.html">Found Items</a></li>
+                <li><a href="report.html">Report Item</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="form-container">
+        <section class="form-section">
+            <h2>Report Lost Item</h2>
+            <iframe src="https://forms.gle/nYWqyzYtPtXBkwqk6?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </section>
+        <section class="form-section">
+            <h2>Report Found Item</h2>
+            <iframe src="https://forms.gle/UNUJgfZpgL9sbMVU6?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </section>
+    </div>
+    <!-- Your existing HTML content -->
+
+
+
+    
+    
+    
+    
+    </main>
+    <footer id="footer">
+        <div class="footer-content">
+            <p><strong>Developed by:</strong></p>
+            <div class="developer">
+                <p>Khushi Goyal <a href="https://www.linkedin.com/in/khushi-goyal-56b633283/" target="_blank">LinkedIn</a></p>
+            </div>
+            <div class="developer">
+                <p>Khushi Mathur <a href="https://www.linkedin.com/in/khushi-mathur-26b07928a/" target="_blank">LinkedIn</a></p>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

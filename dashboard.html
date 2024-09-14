@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Basic styles for the cards */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .card h3 {
+            margin: 10px 0;
+        }
+        .card p {
+            margin: 5px 0;
+        }
+        #lost-items-container, #found-items-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: space-around;
+        }
+        button {
+            background-color: #123c69;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1e62ab;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            max-width: 500px; /* Restrict the width */
+            margin: 0 auto; /* Center the container */
+            padding: 16px;
+        }
+        .input-container input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            flex: 1;
+        }
+        .input-container button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-top: -1em;
+        }
+        #dashboard{
+            margin-left:1.5em;
+            margin-bottom:0.5em;
+            color:#123c69;
+        }
+        .items{
+          margin-left:2em;
+            margin-bottom:1em;
+            color:#123c69;
+        }
+        #delete{
+            background-color: #edc7b7;
+        }
+        #delete:hover{
+            background-color:#eaa88c ;
+        }
+        html, body {
+    height: 100%; /* Ensures the body takes up the full height of the viewport */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    background-color: #ac3b61; /* Set your desired background color */
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto; /* Pushes the footer to the bottom when the content is short */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left; /* Align text to the left */
+}
+
+.developer {
+    margin: 5px 0;
+}
+
+        /* For tablets and smaller screens (up to 768px) */
+@media only screen and (max-width: 768px) {
+    .input-container {
+        flex-direction: column;
+        width: 100%;
+    }
+    .card {
+        width: 90%;
+        margin: 10px auto;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* For phone screens (up to 480px) */
+@media only screen and (max-width: 480px) {
+    .input-container {
+        flex-direction: column;
+        width: 100%;
+    }
+    input, button {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+    }
+    .card {
+        width: 95%;
+        margin: 10px auto;
+    }
+}
+
+    </style>
+    <base target="_top">
+    <script>
+        
+
+        const lostItemsUrl = 'https://script.google.com/macros/s/AKfycbx7ij5Nb3Ve4YZc5o5IArZ95lVpTzc7fIosPQvhWZQjoCtQFzGKZygUWLUpZlUYMHmt/exec'; // Replace with your Google Apps Script Web App URL for lost items
+        const foundItemsUrl = 'https://script.google.com/macros/s/AKfycbyG6j-OW8QcFgkcEc7vE8ohfHnt09wuOxaa6l4-VM94lT7K2P0A8nEeYgEvNCC0Y_B4/exec'; // Replace with your Google Apps Script Web App URL for lost items 
+        let email;
+        function initPage() {
+            email = document.getElementById("email").value;
+            fetchData(lostItemsUrl, email, 'lost-items-container');
+            fetchData(foundItemsUrl, email, 'found-items-container');
+        }
+        //document.getElementById("output").innerText = myVariable;
+        function fetchData(url, email, containerId) {
+            fetch(`${url}?email=${encodeURIComponent(email)}`)
+                .then(response => response.json())
+                .then(data => displayData(data, containerId))
+                .catch(error => console.error('Error fetching data:', error));
+        }
+        
+
+        function displayData(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear previous content
+
+            if (data.length === 0) {
+                container.innerHTML = 'No entries found.';
+                return;
+            }
+
+            data.forEach(entry => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                console.log(entry['row']);
+                console.log(typeof(entry.row));
+                console.log(typeof(data));
+
+                const driveLink = entry['data'][6];
+                const fileIdMatch = driveLink ? driveLink.match(/d\/([^\/]+)/) : null;
+                const fileId = fileIdMatch ? fileIdMatch[1] : '';
+                const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
+                
+                card.innerHTML = `
+                    <h3>${entry['data'][2]}</h3>
+                    <p><strong>Full Name:</strong> ${entry['data'][1]}</p>
+                    <p><strong>Item Name:</strong> ${entry['data'][2]}</p>
+                    <p><strong>Description:</strong> ${entry['data'][3]}</p>
+                    <p><strong>Contact:</strong> ${entry['data'][4]}</p>
+                    <p><strong>Email:</strong> <a href="mailto:${entry['data'][5]}">${entry['data'][5]}</a></p>
+                    
+                    ${previewLink ? `<iframe src="${previewLink}" width="100%" height="200px" frameborder="0" allowfullscreen></iframe>` : '<p>No preview available</p>'}  
+                    <button id='delete' onclick='closeQuery(${JSON.stringify(entry['row']).replace(/'/g, "\\'")}, "${containerId}")'>Delete</button>
+
+                `;
+
+                console.log(entry);
+                container.appendChild(card);
+            });
+        }
+
+        // function closeQuery(rowIndex, containerId) {
+        //     const url = containerId === 'lost-items-container' ? lostItemsUrl : foundItemsUrl;
+        //     fetch(`${url}?row=${rowIndex}`, { method: 'POST' })
+        //         .then(response => response.text())
+        //         .then(() => {
+        //             alert('Query closed and row deleted.');
+        //             // initPage(getQueryParam('email')); // Refresh results after deletion
+        //         })
+        //         .catch(error => console.error('Error:', error));
+        // }
+        // function closeQuery(x, containerId) {
+        //     let rowIndex=parseInt(x,10);
+        //     const url = containerId === 'lost-items-container' ? lostItemsUrl : foundItemsUrl;
+        //     fetch(url, {method: 'POST',
+        //     // mode: 'no-cors',
+        //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        //     // body: JSON.stringify({ row: rowIndex 
+        //     body: new URLSearchParams({
+        //   'rowIndex': rowIndex
+        // })})
+        //     // })
+        //         .then(response => response.text())
+        //         .then(() => {
+        //           alert('Query closed and row deleted.');
+        //           // initPage(getQueryParam('email')); // Refresh results after deletion
+        //         })
+        //         .catch(error => console.error('Error:', error));
+
+           
+            
+        // }
+        
+
+        function closeQuery(rowIndex, containerId) {
+    // let rowIndex = parseInt(x, 10);
+    const url = containerId === 'lost-items-container' ? lostItemsUrl : foundItemsUrl;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+            'rowIndex': rowIndex // Ensure this key matches what the Google Apps Script expects
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.text();
+    })
+    .then(result => {
+        alert('Query closed and row deleted.');
+        initPage(); // Refresh results after deletion
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to close query. Check console for details.');
+    });
+}
+
+
+
+
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>[SITE NAME]</li>
+                <li><a href="lost.html">Lost Items</a></li>
+                <li><a href="found.html">Found Items</a></li>
+                <li><a href="report.html">Report Item</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1 id="dashboard">Dashboard</h1>
+    <div class="input-container">
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    <button onclick= "initPage()"  type = "button" id = "submit_button">Get Details</button>
+    </div>
+    
+    <h2 class="items">Lost Items</h2>
+    <div id="lost-items-container"></div>
+
+    <h2 class="items">Found Items</h2>
+    <div id="found-items-container"></div>
+
+    
+</body>
+<footer id="footer">
+    <div class="footer-content">
+        <p><strong>Developed by:</strong></p>
+        <div class="developer">
+            <p>Khushi Goyal <a href="https://www.linkedin.com/in/khushi-goyal-56b633283/" target="_blank">LinkedIn</a></p>
+        </div>
+        <div class="developer">
+            <p>Khushi Mathur <a href="https://www.linkedin.com/in/khushi-mathur-26b07928a/" target="_blank">LinkedIn</a></p>
+        </div>
+    </div>
+</footer>
+</html>
