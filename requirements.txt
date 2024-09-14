@@ -2,5 +2,6 @@ flask
 pandas
 flask_cors
 smtplib
-email.mime
+email.mime.text
+email.mime.multipart
 random
