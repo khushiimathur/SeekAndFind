@@ -43,7 +43,7 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return "Welcome to Lost&Found - IGDTUW!"
+    return send_file('index.html')
 
 @app.route('/process', methods=['POST'])
 def process_data():
