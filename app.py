@@ -41,6 +41,10 @@ def send_email(recipient_email):
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def home():
+    return "Welcome to Lost&Found - IGDTUW!"
+
 @app.route('/process', methods=['POST'])
 def process_data():
     data = request.json
