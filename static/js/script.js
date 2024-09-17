@@ -26,7 +26,7 @@ async function verify(){
     let check_otp = document.getElementById('otp').value ;    //= result.result;
     if(check_otp == otp) {
         //redirect to dashboard 
-        window.location.replace("dashboard.html"); 
+        window.location.href("dashboard.html"); 
         
     }else {
         alert("Invalid OTP. Please try again");
