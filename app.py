@@ -5,6 +5,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
+import os
 
 def send_email(recipient_email):
     otp = random.randint(100000, 999999)
@@ -43,7 +44,7 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return send_file('index.html')
+    return render_template('index.html')
 
 @app.route('/process', methods=['POST'])
 def process_data():
