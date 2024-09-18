@@ -46,6 +46,19 @@ CORS(app)
 def home():
     return render_template('index.html')
 
+@app.route('/dashboard')
+def home():
+    return render_template('dashboard.html')
+@app.route('/found')
+def home():
+    return render_template('found.html')
+@app.route('/lost')
+def home():
+    return render_template('lost.html')
+@app.route('/report')
+def home():
+    return render_template('report.html')
+
 @app.route('/process', methods=['POST'])
 def process_data():
     data = request.json

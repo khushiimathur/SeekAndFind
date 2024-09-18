@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     
     <style>
         /* Basic styles for the cards */
@@ -271,10 +271,10 @@
         <nav>
             <ul>
                 <li>[SITE NAME]</li>
-                <li><a href="lost.html">Lost Items</a></li>
-                <li><a href="found.html">Found Items</a></li>
-                <li><a href="report.html">Report Item</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="/lost">Lost Items</a></li>
+                <li><a href="/found">Found Items</a></li>
+                <li><a href="/report">Report Item</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
             </ul>
         </nav>
     </header>

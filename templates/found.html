@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Found Items</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <header>
         <nav>
             <ul>
                 <li>[SITE NAME]</li>
-                <li><a href="lost.html">Lost Items</a></li>
-                <li><a href="found.html">Found Items</a></li>
-                <li><a href="report.html">Report Item</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="/lost">Lost Items</a></li>
+                <li><a href="/found">Found Items</a></li>
+                <li><a href="/report">Report Item</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
                 <div class="search-container" style="display: flex;">
                     <input type="text" id="searchInput" placeholder="Search item name...">
                     <li><a><button id="searchButton" onclick="searchItems()">Search</button></li></a>
@@ -252,7 +252,7 @@ html, body {
             history.pushState(null, document.title, window.location.href);
 
             window.addEventListener('popstate', function(event) {
-            window.location.href = 'found.html';
+            window.location.href = '/found';
             });
         });
 
