@@ -66,11 +66,10 @@ nav ul li a:hover {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-top: -0.5em;
     font-size: 16px;
     flex: 1; /* Take up remaining space */
     box-sizing: border-box;
-    transform: translateY(2px); /* Move input slightly down */
+    transform: translateY(6px); /* Move input slightly down */
 }
 
 /* Style for the button */
