@@ -196,7 +196,7 @@
                         const fileId = fileIdMatch ? fileIdMatch[1] : '';
                         const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
                 
-                        if (searchValue == item["itemName"]){
+                        if (searchValue == item["itemName"].toLowerCase()){
                             card.innerHTML = `
                             <h3>${item["itemName"]}</h3>
                             <p>Full Name: ${item["owner"]}</p>
