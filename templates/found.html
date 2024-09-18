@@ -165,9 +165,9 @@ html, body {
                     // Dynamically build the card content
                     card.innerHTML = `
                         <h3>${item["itemName"]}</h3>
-                        <p>Full Name: ${item["owner"]}</p>
-                        <p>Item Name: ${item["itemName"]}</p>
-                        <p>Description: ${item["description"]}</p>
+                        <p><strong>Full Name: </strong>${item["owner"]}</p>
+                        <p><strong>Item Name: </strong>${item["itemName"]}</p>
+                        <p><strong>Description:</strong> ${item["description"]}</p>
                         <p><strong>Contact:</strong> ${item["contact"]}</p>
                         <p><strong>Email:</strong> <a href="mailto:${item["email"]}">${item["email"]}</a></p>
                         ${previewLink ? `<iframe src="${previewLink}" width="100%" height="200px" frameborder="0" allowfullscreen></iframe>` : '<p>No preview available</p>'}
