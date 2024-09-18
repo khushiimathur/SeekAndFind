@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session, redirect, url_for, request
 import pandas as pd
 from flask_cors import CORS
 import smtplib
@@ -40,8 +40,9 @@ def send_email(recipient_email):
     print("done")
 
 app = Flask(__name__)
+app.secret_key = os.getenv('secret_key')
 CORS(app)
-flag = False
+
 
 @app.route('/')
 def home():
@@ -49,22 +50,23 @@ def home():
 
 @app.route('/dashboard')
 def dashboard():
-    flag = True
+    session['flag'] = True
     return render_template('dashboard.html')
 
 @app.route('/found')
 def found():
-    if flag == True:
+    if session.get('flag'):
         return render_template('found.html')
+    
 
 @app.route('/lost')
 def lost():
-    if flag == True:
+    if session.get('flag'):
         return render_template('lost.html')
 
 @app.route('/report')
 def report():
-    if flag == True:
+    if session.get('flag'):
         return render_template('report.html')
 
 @app.route('/process', methods=['POST'])
