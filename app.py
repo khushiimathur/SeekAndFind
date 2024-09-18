@@ -41,6 +41,7 @@ def send_email(recipient_email):
 
 app = Flask(__name__)
 CORS(app)
+flag = False
 
 @app.route('/')
 def home():
@@ -48,19 +49,23 @@ def home():
 
 @app.route('/dashboard')
 def dashboard():
+    flag = True
     return render_template('dashboard.html')
 
 @app.route('/found')
 def found():
-    return render_template('found.html')
+    if flag == True:
+        return render_template('found.html')
 
 @app.route('/lost')
 def lost():
-    return render_template('lost.html')
+    if flag == True:
+        return render_template('lost.html')
 
 @app.route('/report')
 def report():
-    return render_template('report.html')
+    if flag == True:
+        return render_template('report.html')
 
 @app.route('/process', methods=['POST'])
 def process_data():
