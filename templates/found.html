@@ -7,20 +7,23 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <header>
         <nav>
-            <ul>
-                <li>[SITE NAME]</li>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-links">
+                <li>SeekAndFind</li>
                 <li><a href="/lost">Lost Items</a></li>
                 <li><a href="/found">Found Items</a></li>
                 <li><a href="/report">Report Item</a></li>
                 <li><a href="/dashboard">Dashboard</a></li>
                 <div class="search-container" style="display: flex;">
                     <input type="text" id="searchInput" placeholder="Search item name...">
-                    <li><a><button id="searchButton" onclick="searchItems()">Search</button></li></a>
+                    <li><a><button id="searchButton" onclick="searchItems()">Search</button></a></li>
                 </div>
             </ul>
         </nav>
-        
-        
     </header>
     
     <style>
@@ -254,12 +257,7 @@ html, body {
             window.addEventListener('popstate', function(event) {
             window.location.href = '/found';
             });
-        });
-
-
-    
-
-    
+        }); 
 
 
     </script>
@@ -268,10 +266,10 @@ html, body {
     <div class="footer-content">
         <p><strong>Developed by:</strong></p>
         <div class="developer">
-            <p>Khushi Goyal <a href="https://www.linkedin.com/in/khushi-goyal-56b633283/" target="_blank">LinkedIn</a></p>
+            <a href="https://www.linkedin.com/in/khushi-goyal-56b633283/" target="_blank">Khushi Goyal</a>
         </div>
         <div class="developer">
-            <p>Khushi Mathur <a href="https://www.linkedin.com/in/khushi-mathur-26b07928a/" target="_blank">LinkedIn</a></p>
+            <a href="https://www.linkedin.com/in/khushi-mathur-26b07928a/" target="_blank">Khushi Mathur</a>
         </div>
     </div>
 </footer>
