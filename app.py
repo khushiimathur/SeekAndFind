@@ -16,7 +16,7 @@ def send_email(recipient_email):
     Thank you for logging into SeekAndFind - IGDTUW. Please enter this OTP to verify your credentials.
     {} 
     Best regards,
-    Team Lost&Found'''.format(otp)
+    Team SeekAndFind'''.format(otp)
 
     # Setup the email server
     smtp_server = "smtp.gmail.com"  # Example: smtp.gmail.com
