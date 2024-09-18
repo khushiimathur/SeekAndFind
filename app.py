@@ -10,7 +10,7 @@ import os
 def send_email(recipient_email):
     otp = random.randint(100000, 999999)
     sender_email = "mathurkhushi027@gmail.com"
-    sender_password = "uhrg plsv afhl kxho"
+    sender_password = os.getenv('Email_password')
     subject = "OTP for login to SeekAndFind - IGDTUW"
     body = '''Hello,
     Thank you for logging into SeekAndFind - IGDTUW. Please enter this OTP to verify your credentials.

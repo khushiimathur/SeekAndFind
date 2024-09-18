@@ -171,9 +171,7 @@
             data.forEach(entry => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                console.log(entry['row']);
-                console.log(typeof(entry.row));
-                console.log(typeof(data));
+                
 
                 const driveLink = entry['data'][6];
                 const fileIdMatch = driveLink ? driveLink.match(/d\/([^\/]+)/) : null;
@@ -193,7 +191,7 @@
 
                 `;
 
-                console.log(entry);
+                
                 container.appendChild(card);
             });
         }

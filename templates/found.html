@@ -7,12 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <header>
         <nav>
-            <div class="menu-toggle" id="mobile-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul id="nav-links">
+            <ul>
                 <li class = "site_name">SeekAndFind</li>
                 <li><a href="/lost">Lost Items</a></li>
                 <li><a href="/found">Found Items</a></li>
@@ -20,7 +15,7 @@
                 <li><a href="/dashboard">Dashboard</a></li>
                 <div class="search-container" style="display: flex;">
                     <input type="text" id="searchInput" placeholder="Search item name...">
-                    <li><a><button id="searchButton" onclick="searchItems()">Search</button></a></li>
+                    <button id="searchButton" onclick="searchItems()">Search</button>
                 </div>
             </ul>
         </nav>
@@ -177,8 +172,6 @@ html, body {
                     container.appendChild(card);
                 });
 
-                // Log item_names array to verify it is populated
-                console.log(item_names);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

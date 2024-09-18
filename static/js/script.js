@@ -2,7 +2,7 @@ let otp = 0;
 let userInput;
 async function sendData() {
     userInput = document.getElementById('email').value;
-    console.log(userInput);
+    
     if (userInput.endsWith("@igdtuw.ac.in")){
         const response = await fetch('https://seekandfind.onrender.com/process', {
             method: 'POST',
@@ -22,7 +22,7 @@ async function sendData() {
 };
 
 async function verify(){
-    console.log(otp);
+    
     let check_otp = document.getElementById('otp').value ;    //= result.result;
     if(check_otp == otp) {
         //redirect to dashboard 
