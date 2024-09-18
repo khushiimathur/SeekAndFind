@@ -49,12 +49,15 @@ def home():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
 @app.route('/found')
 def found():
     return render_template('found.html')
+
 @app.route('/lost')
 def lost():
     return render_template('lost.html')
+
 @app.route('/report')
 def report():
     return render_template('report.html')

@@ -17,6 +17,7 @@
         padding: 10px;
     }
     .form-section {
+        overflow: hidden;
         max-width: 600px; /* Ensure forms are not too wide on tablets */
     }
     iframe {
@@ -26,7 +27,9 @@
 
 @media (max-width: 480px) {
     .form-section {
-        max-width: 100%; /* Full width on smaller screens */
+        max-width: 100%;
+        overflow: hidden;
+         /* Full width on smaller screens */
     }
     iframe {
         height: 500px; /* Adjust iframe height for small screens */
