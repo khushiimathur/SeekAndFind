@@ -10,20 +10,41 @@
     <header>
         <style>
             /* Media queries for responsiveness */
-@media (max-width: 768px) {
-    .form-container {
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-    }
-    .form-section {
-        overflow: hidden;
-        max-width: 600px; /* Ensure forms are not too wide on tablets */
-    }
-    iframe {
-        height: 600px; /* Adjust iframe height for better fit */
-    }
-}
+            
+  /* Base styles */
+  .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  }
+
+  .form-section {
+      flex: 1;
+      margin: 10px;
+  }
+
+  iframe {
+      width: 100%;
+      height: 800px;
+  }
+
+  /* Responsive for smaller screens */
+  @media (max-width: 768px) {
+      .form-container {
+          flex-direction: column;
+          align-items: stretch;
+      }
+
+      .form-section {
+          width: 100%;
+          margin: 0;
+      }
+
+      iframe {
+          height: 100vh; /* Takes up the full visible height of the device */
+      }
+  }
+
 
 @media (max-width: 480px) {
     .form-section {
@@ -39,7 +60,7 @@
         
         <nav>
             <ul>
-                <li>[SITE NAME]</li>
+                <li>SeekAndFind</li>
                 <li><a href="/lost">Lost Items</a></li>
                 <li><a href="/found">Found Items</a></li>
                 <li><a href="/report">Report Item</a></li>
