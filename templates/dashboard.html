@@ -217,12 +217,12 @@
         return response.text();
     })
     .then(result => {
-        alert('Query closed and row deleted.');
+        alert('Query closed.');
         initPage(); // Refresh results after deletion
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to close query. Check console for details.');
+        alert('Failed to close query.');
     });
 }
 
