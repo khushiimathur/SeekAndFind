@@ -47,16 +47,16 @@ def home():
     return render_template('index.html')
 
 @app.route('/dashboard')
-def home():
+def dashboard():
     return render_template('dashboard.html')
 @app.route('/found')
-def home():
+def found():
     return render_template('found.html')
 @app.route('/lost')
-def home():
+def lost():
     return render_template('lost.html')
 @app.route('/report')
-def home():
+def report():
     return render_template('report.html')
 
 @app.route('/process', methods=['POST'])
