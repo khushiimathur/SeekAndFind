@@ -10,6 +10,9 @@ body {
     height:100%;
     background-color: #eee2dc;
 }
+html,body{
+    overflow-x: hidden;
+}
 
 header {
     background-color: #ac3b61;
@@ -21,7 +24,8 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
+    width: 100%;
     margin: 0 auto;
     padding: 0 1em;
 }
