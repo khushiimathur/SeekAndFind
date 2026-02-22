@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, session, redirect, url_for, request
 import pandas as pd
 from flask_cors import CORS
-import smtplib
+# import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
@@ -41,8 +41,7 @@ import os
 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-import os
-import random
+
 
 def send_email(recipient_email):
     otp = random.randint(100000, 999999)
