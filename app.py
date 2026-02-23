@@ -10,6 +10,7 @@ import os
 from pymongo import MongoClient
 import cloudinary
 import cloudinary.uploader
+from bson import ObjectId
 
 
 # def send_email(recipient_email):
@@ -218,6 +219,32 @@ def process_data():
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
     
+
+
+@app.route('/dashboard-data')
+def dashboard_data():
+    email = request.args.get('email')
+
+    lost_items = list(collection.find({"email": email, "type": "lost"}))
+    found_items = list(collection.find({"email": email, "type": "found"}))
+
+    # convert ObjectId to string
+    for item in lost_items + found_items:
+        item['_id'] = str(item['_id'])
+
+    return jsonify({
+        "lost": lost_items,
+        "found": found_items
+    })
+
+@app.route('/delete-item', methods=['POST'])
+def delete_item():
+    data = request.get_json()
+    item_id = data.get("id")
+
+    collection.delete_one({"_id": ObjectId(item_id)})
+
+    return jsonify({"message": "Deleted"})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
