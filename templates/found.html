@@ -125,7 +125,7 @@ html, body {
 
     </style>
 </head>
-<body>
+<!-- <body>
     
     <h1>Found Items</h1>
     <div class="disclaimer-container">
@@ -246,7 +246,62 @@ html, body {
 
 
     </script>
+</body> -->
+
+<body>
+
+<h1>Found Items</h1>
+
+<div class="disclaimer-container">
+    <p><strong>Disclaimer:</strong> Please verify ownership before handing over items.</p>
+</div>
+
+<!-- ✅ DYNAMIC DATA FROM MONGODB -->
+<div id="found-items-container">
+    {% for item in items %}
+    <div class="card">
+        <h3>{{ item.item_name }}</h3>
+
+        <p><strong>Full Name:</strong> {{ item.name }}</p>
+        <p><strong>Description:</strong> {{ item.description }}</p>
+        <p><strong>Contact:</strong> {{ item.contact }}</p>
+
+        {% if item.image %}
+            <img src="{{ item.image }}" alt="Item Image">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<!-- ✅ CLEAN SEARCH SCRIPT -->
+<script>
+function searchItems() {
+    const searchValue = document.getElementById("searchInput").value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+
+    let found = false;
+
+    cards.forEach(card => {
+        const name = card.querySelector("h3").innerText.toLowerCase();
+
+        if (name.includes(searchValue)) {
+            card.style.display = "block";
+            found = true;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    if (!found) {
+        document.getElementById("found-items-container").innerHTML = "<p>No items found</p>";
+    }
+}
+</script>
+
 </body>
+
 <footer id="footer">
     <div class="footer-content">
         <p><strong>Developed by:</strong></p>

@@ -7,6 +7,11 @@ from email.mime.multipart import MIMEMultipart
 import random
 import os
 
+from pymongo import MongoClient
+import cloudinary
+import cloudinary.uploader
+
+
 # def send_email(recipient_email):
 #     otp = random.randint(100000, 999999)
 #     sender_email = "seekandfindigdtuw@gmail.com"
@@ -96,6 +101,21 @@ app = Flask(__name__)
 app.secret_key =os.getenv('secret_key')
 CORS(app)
 
+# ---------------- CLOUDINARY ---------------- #
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
+
+# ---------------- MONGODB ---------------- #
+
+client = MongoClient(os.getenv("MONGO_URI"))
+db = client["seekandfind"]
+collection = db["items"]
+
+
 
 @app.route('/')
 def home():
@@ -106,21 +126,76 @@ def dashboard():
     session['flag'] = True
     return render_template('dashboard.html')
 
-@app.route('/found')
-def found():
-    if session.get('flag'):
-        return render_template('found.html')
+# @app.route('/found')
+# def found():
+#     if session.get('flag'):
+#         return render_template('found.html')
     
 
+# @app.route('/lost')
+# def lost():
+#     if session.get('flag'):
+#         return render_template('lost.html')
+
+# @app.route('/report')
+# def report():
+#     if session.get('flag'):
+#         return render_template('report.html')
+
+# ✅ FIXED LOST ROUTE
 @app.route('/lost')
 def lost():
     if session.get('flag'):
-        return render_template('lost.html')
+        items = list(collection.find({"type": "lost"}))
+        return render_template('lost.html', items=items)
+    return redirect(url_for('home'))
 
-@app.route('/report')
-def report():
+
+# ✅ FIXED FOUND ROUTE
+@app.route('/found')
+def found():
     if session.get('flag'):
-        return render_template('report.html')
+        items = list(collection.find({"type": "found"}))
+        return render_template('found.html', items=items)
+    return redirect(url_for('home'))
+
+
+# ✅ FORM SUBMISSION (CLOUDINARY + MONGO)
+@app.route('/submit', methods=['POST'])
+def submit():
+    try:
+        name = request.form.get("name")
+        item_name = request.form.get("item_name")
+        description = request.form.get("description")
+        contact = request.form.get("contact")
+        email = request.form.get("email")
+        item_type = request.form.get("type")
+
+        file = request.files.get("image")
+
+        image_url = None
+        if file and file.filename != "":
+            upload_result = cloudinary.uploader.upload(file)
+            image_url = upload_result.get("secure_url")
+
+        data = {
+            "name": name,
+            "item_name": item_name,
+            "description": description,
+            "contact": contact,
+            "email": email,
+            "type": item_type,
+            "image": image_url
+        }
+
+        collection.insert_one(data)
+
+        return jsonify({"message": "Item submitted successfully!"})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return jsonify({"error": str(e)}), 500
+
 
 # @app.route('/process', methods=['POST'])
 # def process_data():

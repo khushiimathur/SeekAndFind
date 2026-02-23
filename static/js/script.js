@@ -36,5 +36,36 @@ async function verify(){
 
 }
 
+async function handleForm(formId, type) {
+    const form = document.getElementById(formId);
 
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
+        const formData = new FormData(form);
+        formData.append("type", type);
+
+        try {
+            const res = await fetch("/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert("Submitted successfully!");
+                form.reset();
+            } else {
+                alert(data.error || "Error occurred");
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Server error");
+        }
+    });
+}
+
+handleForm("lostForm", "lost");
+handleForm("foundForm", "found");

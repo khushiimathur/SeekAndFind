@@ -69,7 +69,7 @@
         </nav>
     </header>
     <main>
-        <div class="form-container">
+        <!-- <div class="form-container">
         <section class="form-section">
             <h2>Report Lost Item</h2>
             <iframe src="https://forms.gle/nYWqyzYtPtXBkwqk6?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
@@ -78,16 +78,33 @@
             <h2>Report Found Item</h2>
             <iframe src="https://forms.gle/UNUJgfZpgL9sbMVU6?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
         </section>
-    </div>
-    <!-- Your existing HTML content -->
+        </div> -->
+        <h2>Report Lost Item</h2>
+        <form id="lostForm">
+            <input type="text" name="name" placeholder="Full Name" required><br><br>
+            <input type="text" name="item_name" placeholder="Item Name" required><br><br>
+            <textarea name="description" placeholder="Describe item" required></textarea><br><br>
+            <input type="text" name="contact" placeholder="Contact No." required><br><br>
+            <input type="email" name="email" placeholder="Email" required><br><br>
+            <input type="file" name="image" accept="image/*"><br><br>
+            <button type="submit">Submit Lost</button>
+        </form>
 
+        <hr>
 
-
-    
-    
-    
-    
+        <h2>Report Found Item</h2>
+        <form id="foundForm">
+            <input type="text" name="name" placeholder="Full Name" required><br><br>
+            <input type="text" name="item_name" placeholder="Item Name" required><br><br>
+            <textarea name="description" placeholder="Describe item" required></textarea><br><br>
+            <input type="text" name="contact" placeholder="Contact No." required><br><br>
+            <input type="email" name="email" placeholder="Email" required><br><br>
+            <input type="file" name="image" accept="image/*"><br><br>
+            <button type="submit">Submit Found</button>
+        </form>
     </main>
+
+
     <footer id="footer">
         <div class="footer-content">
             <p><strong>Developed by:</strong></p>

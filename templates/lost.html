@@ -63,6 +63,9 @@
 .developer {
     margin: 5px 0;
 }
+#lost-items-container {
+    display: block;
+}
 
         
         /* Media queries for responsiveness */
@@ -118,8 +121,25 @@
     </header>
     
     <h1>Lost Items</h1>
-    <div id="lost-items-container"></div>
-    <script>
+    <!-- ✅ MONGODB DATA -->
+    <div id="lost-items-container">
+        {% for item in items %}
+        <div class="card">
+            <h3>{{ item.item_name }}</h3>
+
+            <p><strong>Full Name:</strong> {{ item.name }}</p>
+            <p><strong>Description:</strong> {{ item.description }}</p>
+            <p><strong>Contact:</strong> {{ item.contact }}</p>
+
+            {% if item.image %}
+                <img src="{{ item.image }}" alt="Item Image">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <!-- <script>
       
         const url = 'https://script.google.com/macros/s/AKfycby0WibbhZftneSr8DYuOzWQKM56-OmU3EnUpDaqO_ymcsGnvlE9nvbMu5O0HbyW9C8Ceg/exec'; // Replace with your Google Apps Script Web App URL
         let item_names = []; // Globally accessible array
@@ -236,7 +256,50 @@
     
 
 
-    </script>
+    </script> -->
+
+    <!-- ✅ SEARCH SCRIPT -->
+<script>
+function searchItems() {
+    const searchValue = document.getElementById("searchInput").value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+
+    let found = false;
+
+    cards.forEach(card => {
+        const itemName = card.querySelector("h3").innerText.toLowerCase();
+
+        if (itemName.includes(searchValue)) {
+            card.style.display = "block";
+            found = true;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    if (!found) {
+        document.getElementById("lost-items-container").innerHTML = "<p>No items found</p>";
+    }
+}
+
+// ✅ SAFE EVENT LISTENER
+document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById("searchInput");
+
+    input.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            searchItems();
+        }
+    });
+
+    // optional back handling
+    history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function() {
+        window.location.href = '/lost';
+    });
+});
+</script>
+
 </body>
 <footer id="footer">
     <div class="footer-content">
