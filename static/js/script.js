@@ -4,7 +4,7 @@ async function sendData() {
     userInput = document.getElementById('email').value;
     
     if (userInput.endsWith("@igdtuw.ac.in")){
-        const response = await fetch('https://seekandfind.onrender.com/process', {
+        const response = await fetch('/process', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,4 +34,5 @@ async function verify(){
 
 
 }
+
 
