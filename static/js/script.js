@@ -1,6 +1,7 @@
 let otp = 0;
 let userInput;
 async function sendData() {
+    console.log("Send OTP clicked");
     userInput = document.getElementById('email').value;
     
     if (userInput.endsWith("@igdtuw.ac.in")){
@@ -34,5 +35,6 @@ async function verify(){
 
 
 }
+
 
 
