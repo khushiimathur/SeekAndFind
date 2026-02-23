@@ -142,22 +142,21 @@ def dashboard():
 #     if session.get('flag'):
 #         return render_template('report.html')
 
-# ✅ FIXED LOST ROUTE
 @app.route('/lost')
 def lost():
-    if session.get('flag'):
-        items = list(collection.find({"type": "lost"}))
-        return render_template('lost.html', items=items)
-    return redirect(url_for('home'))
+    items = list(collection.find({"type": "lost"}))
+    return render_template('lost.html', items=items)
 
 
-# ✅ FIXED FOUND ROUTE
 @app.route('/found')
 def found():
-    if session.get('flag'):
-        items = list(collection.find({"type": "found"}))
-        return render_template('found.html', items=items)
-    return redirect(url_for('home'))
+    items = list(collection.find({"type": "found"}))
+    return render_template('found.html', items=items)
+
+
+@app.route('/report')
+def report():
+    return render_template('report.html')
 
 
 # ✅ FORM SUBMISSION (CLOUDINARY + MONGO)
