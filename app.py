@@ -225,6 +225,10 @@ def process_data():
 def dashboard_data():
     email = request.args.get('email')
 
+    # 🔒 DOMAIN CHECK
+    if not email.endswith("@igdtuw.ac.in"):
+        return jsonify({"error": "Unauthorized"}), 403
+    
     lost_items = list(collection.find({"email": email, "type": "lost"}))
     found_items = list(collection.find({"email": email, "type": "found"}))
 

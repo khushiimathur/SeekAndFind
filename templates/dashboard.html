@@ -142,11 +142,12 @@
     <script>
 async function initPage() {
     const email = document.getElementById("email").value;
-
-    if (!email) {
-        alert("Enter email");
+    
+    if (!email.endsWith("@igdtuw.ac.in")) {
+        alert("Only IGDTUW email allowed");
         return;
     }
+    
 
     try {
         const res = await fetch(`/dashboard-data?email=${encodeURIComponent(email)}`);
