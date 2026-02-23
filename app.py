@@ -43,7 +43,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 
-def send_email(recipient_email):
+'''def send_email(recipient_email):
     otp = random.randint(100000, 999999)
 
     message = Mail(
@@ -60,7 +60,38 @@ def send_email(recipient_email):
     except Exception as e:
         print("SendGrid error:", e)
         return None
+'''
+def send_email(recipient_email):
+    otp = random.randint(100000, 999999)
 
+    message = Mail(
+        from_email='seekandfindigdtuw@gmail.com',
+        to_emails=recipient_email,
+        subject='OTP for SeekAndFind',
+        html_content=f'<strong>Your OTP is {otp}</strong>'
+    )
+
+    try:
+        api_key = os.getenv('SENDGRID_API_KEY')
+        print("API KEY FOUND:", bool(api_key))
+
+        sg = SendGridAPIClient(api_key)
+        response = sg.send(message)
+
+        print("STATUS CODE:", response.status_code)
+        print("RESPONSE BODY:", response.body)
+        print("RESPONSE HEADERS:", response.headers)
+
+        if response.status_code == 202:
+            print("Email accepted by SendGrid")
+            return otp
+        else:
+            print("Email NOT accepted")
+            return None
+
+    except Exception as e:
+        print("SendGrid FULL ERROR:", repr(e))
+        return None
 app = Flask(__name__)
 app.secret_key =os.getenv('secret_key')
 CORS(app)
@@ -117,4 +148,5 @@ def process_data():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
     app.run(host='0.0.0.0', port=port, debug=True)
+
 
