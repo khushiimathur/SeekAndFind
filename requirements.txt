@@ -3,3 +3,5 @@ pandas
 flask_cors
 gunicorn
 sendgrid
+pymongo
+cloudinary
