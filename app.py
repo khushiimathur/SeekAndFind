@@ -137,7 +137,8 @@ def requires_auth(f):
 @app.route('/dashboard')
 @requires_auth
 def dashboard():
-    return render_template('dashboard.html')
+    # pass the logged‑in email to template
+    return render_template('dashboard.html', email=session.get('email'))
 
 # @app.route('/found')
 # def found():
@@ -256,10 +257,11 @@ def verify_otp():
 @app.route('/dashboard-data')
 @requires_auth
 def dashboard_data():
-    email = request.args.get('email')
+    # grab email from session, not query string
+    email = session.get('email')
 
-    # 🔒 DOMAIN CHECK
-    if not email.endswith("@igdtuw.ac.in"):
+    # 🔒 DOMAIN CHECK (should always pass)
+    if not email or not email.endswith("@igdtuw.ac.in"):
         return jsonify({"error": "Unauthorized"}), 403
     
     lost_items = list(collection.find({"email": email, "type": "lost"}))

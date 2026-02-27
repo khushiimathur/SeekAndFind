@@ -141,16 +141,9 @@
     <base target="_top">
     <script>
 async function initPage() {
-    const email = document.getElementById("email").value;
-    
-    if (!email.endsWith("@igdtuw.ac.in")) {
-        alert("Only IGDTUW email allowed");
-        return;
-    }
-    
-
+    // email is stored server-side; no need to read from input or validate here
     try {
-        const res = await fetch(`/dashboard-data?email=${encodeURIComponent(email)}`);
+        const res = await fetch(`/dashboard-data`);
         const data = await res.json();
 
         displayData(data.lost, 'lost-items-container');
@@ -193,17 +186,6 @@ function displayData(items, containerId) {
 }
 
 
-// read query params on load and set email field
-function preloadEmail() {
-    const params = new URLSearchParams(window.location.search);
-    const emailParam = params.get('email');
-    if (emailParam) {
-        const input = document.getElementById('email');
-        input.value = emailParam;
-        input.readOnly = true;
-    }
-}
-
 async function deleteItem(id) {
     if (!confirm("Are you sure?")) return;
 
@@ -225,8 +207,6 @@ async function deleteItem(id) {
     }
 }
 
-// populate email once DOM is ready
-window.addEventListener('DOMContentLoaded', preloadEmail);
 </script>
 </head>
 <body>
@@ -243,7 +223,7 @@ window.addEventListener('DOMContentLoaded', preloadEmail);
     </header>
     <h1 id="dashboard">Dashboard</h1>
     <div class="input-container">
-      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ email }}" readonly>
     <button onclick= "initPage()"  type = "button" id = "submit_button">Get Details</button>
     </div>
     

@@ -23,18 +23,26 @@ async function sendData() {
 };
 
 async function verify(){
-    
-    let check_otp = document.getElementById('otp').value ;    //= result.result;
-    if(check_otp == otp) {
-        // redirect to dashboard with email param
-        window.location.href = "/dashboard?email=" + encodeURIComponent(userInput); 
-        
-    }else {
-        alert("Invalid OTP. Please try again");
+    const check_otp = document.getElementById('otp').value;
+    try {
+        const resp = await fetch('/verify-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ otp: check_otp })
+        });
+        if (resp.ok) {
+            window.location.href = "/dashboard";
+        } else {
+            alert("Invalid OTP. Please try again");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Verification failed");
+    }
 }
 
 
-}
+
 
 async function handleForm(formId, type) {
     const form = document.getElementById(formId);
@@ -67,5 +75,12 @@ async function handleForm(formId, type) {
     });
 }
 
-handleForm("lostForm", "lost");
-handleForm("foundForm", "found");
+// attach form handlers only if forms exist on this page
+window.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('lostForm')) {
+        handleForm("lostForm", "lost");
+    }
+    if (document.getElementById('foundForm')) {
+        handleForm("foundForm", "found");
+    }
+});
