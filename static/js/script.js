@@ -26,8 +26,8 @@ async function verify(){
     
     let check_otp = document.getElementById('otp').value ;    //= result.result;
     if(check_otp == otp) {
-        //redirect to dashboard 
-        window.location.href = "/dashboard"; 
+        // redirect to dashboard with email param
+        window.location.href = "/dashboard?email=" + encodeURIComponent(userInput); 
         
     }else {
         alert("Invalid OTP. Please try again");
