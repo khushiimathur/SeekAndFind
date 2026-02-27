@@ -122,9 +122,21 @@ collection = db["items"]
 def home():
     return render_template('index.html')
 
+from functools import wraps
+
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not session.get('authenticated'):
+            return redirect(url_for('home'))
+        return f(*args, **kwargs)
+    return decorated
+
+
 @app.route('/dashboard')
+@requires_auth
 def dashboard():
-    session['flag'] = True
     return render_template('dashboard.html')
 
 # @app.route('/found')
@@ -144,18 +156,21 @@ def dashboard():
 #         return render_template('report.html')
 
 @app.route('/lost')
+@requires_auth
 def lost():
     items = list(collection.find({"type": "lost"}))
     return render_template('lost.html', items=items)
 
 
 @app.route('/found')
+@requires_auth
 def found():
     items = list(collection.find({"type": "found"}))
     return render_template('found.html', items=items)
 
 
 @app.route('/report')
+@requires_auth
 def report():
     return render_template('report.html')
 
@@ -212,16 +227,34 @@ def process_data():
     print("DATA:", data)
 
     try:
-        result = send_email(data.get('user_input'))
-        print("OTP SENT:", result)
-        return jsonify({'result': result})
+        otp = send_email(data.get('user_input'))
+        print("OTP SENT:", otp)
+        # remember OTP and email in session so we can verify later
+        session['otp'] = str(otp)
+        session['email_temp'] = data.get('user_input')
+        session.pop('authenticated', None)  # clear any previous login state
+        return jsonify({'result': otp})
     except Exception as e:
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
     
 
 
+
+@app.route('/verify-otp', methods=['POST'])
+def verify_otp():
+    data = request.get_json()
+    entered = str(data.get('otp'))
+    if entered == session.get('otp'):
+        session['authenticated'] = True
+        # promote the temp email to permanent session value
+        session['email'] = session.get('email_temp')
+        return jsonify({'success': True})
+    return jsonify({'success': False}), 401
+
+
 @app.route('/dashboard-data')
+@requires_auth
 def dashboard_data():
     email = request.args.get('email')
 
@@ -242,6 +275,7 @@ def dashboard_data():
     })
 
 @app.route('/delete-item', methods=['POST'])
+@requires_auth
 def delete_item():
     data = request.get_json()
     item_id = data.get("id")
