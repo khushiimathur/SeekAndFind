@@ -193,6 +193,17 @@ function displayData(items, containerId) {
 }
 
 
+// read query params on load and set email field
+function preloadEmail() {
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get('email');
+    if (emailParam) {
+        const input = document.getElementById('email');
+        input.value = emailParam;
+        input.readOnly = true;
+    }
+}
+
 async function deleteItem(id) {
     if (!confirm("Are you sure?")) return;
 
@@ -213,6 +224,9 @@ async function deleteItem(id) {
         alert("Delete failed");
     }
 }
+
+// populate email once DOM is ready
+window.addEventListener('DOMContentLoaded', preloadEmail);
 </script>
 </head>
 <body>
