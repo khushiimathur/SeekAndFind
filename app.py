@@ -251,14 +251,12 @@ def verify_otp():
 
 
 @app.route('/dashboard-data')
-@requires_auth
 def dashboard_data():
-    # grab email from session, not query string
-    email = session.get('email')
+    # grab email from query string
+    email = request.args.get('email')
 
-    # 🔒 DOMAIN CHECK (should always pass)
-    if not email or not email.endswith("@igdtuw.ac.in"):
-        return jsonify({"error": "Unauthorized"}), 403
+    if not email:
+        return jsonify({"error": "Email required"}), 400
     
     lost_items = list(collection.find({"email": email, "type": "lost"}))
     found_items = list(collection.find({"email": email, "type": "found"}))

@@ -141,9 +141,14 @@
     <base target="_top">
     <script>
 async function initPage() {
+    const email = document.getElementById('email').value;
+    if (!email) {
+        alert("Please enter your email");
+        return;
+    }
     // email is stored server-side; no need to read from input or validate here
     try {
-        const res = await fetch(`/dashboard-data`);
+        const res = await fetch(`/dashboard-data?email=${email}`);
         const data = await res.json();
 
         displayData(data.lost, 'lost-items-container');
@@ -223,7 +228,7 @@ async function deleteItem(id) {
     </header>
     <h1 id="dashboard">Dashboard</h1>
     <div class="input-container">
-      <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ email }}" readonly>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
     <button onclick= "initPage()"  type = "button" id = "submit_button">Get Details</button>
     </div>
     
