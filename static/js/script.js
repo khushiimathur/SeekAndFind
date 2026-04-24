@@ -23,6 +23,17 @@ async function sendData() {
 };
 
 async function verify(){
+    // legacy function kept for compatibility
+    let check_otp = document.getElementById('otp').value;
+    if(check_otp == otp){
+        window.location.href = "/dashboard";
+    } else {
+        alert("Invalid OTP. Please try again");
+    }
+}
+
+// new server-based verification
+async function verify2(){
     const check_otp = document.getElementById('otp').value;
     try {
         const resp = await fetch('/verify-otp', {

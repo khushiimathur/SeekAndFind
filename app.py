@@ -135,7 +135,6 @@ def requires_auth(f):
 
 
 @app.route('/dashboard')
-@requires_auth
 def dashboard():
     # pass the logged‑in email to template
     return render_template('dashboard.html', email=session.get('email'))
@@ -157,21 +156,18 @@ def dashboard():
 #         return render_template('report.html')
 
 @app.route('/lost')
-@requires_auth
 def lost():
     items = list(collection.find({"type": "lost"}))
     return render_template('lost.html', items=items)
 
 
 @app.route('/found')
-@requires_auth
 def found():
     items = list(collection.find({"type": "found"}))
     return render_template('found.html', items=items)
 
 
 @app.route('/report')
-@requires_auth
 def report():
     return render_template('report.html')
 
